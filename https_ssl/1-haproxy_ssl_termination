@@ -36,8 +36,7 @@ frontend www-http
     bind *:80
     mode http
     default_backend web-backend
-frontend www-https
-    bind *:443 ssl crt /etc/haproxy/abiar.tech.pem
+frontend www-http
     http-request set-header X-Forwarded-Proto https
     acl letsencrypt-acl path_beg /.well-known/acme-challenge/
     use_backend letsencrypt-backend if letsencrypt-acl
@@ -46,7 +45,7 @@ frontend www-https
 backend web-backend
     redirect scheme https unless { ssl_fc }
     balance roundrobin
-    server 5840-web-01 18.207.143.50:80 check
-    server 5840-web-02 18.206.170.21:80 check
+    :80 check
+:80 check
 backend letsencrypt-backend
    server letsencrypt 127.0.0.1:54321
